@@ -1,4 +1,4 @@
-import React, { useCallback, useState, createContext, useContext } from 'react';
+import React, { useCallback, useState, createContext, useContext, type ReactNode } from 'react';
 import { getRepository } from '../repositories/factory';
 import type { Pattern, PatternAnalysisResult } from '../types';
 interface PatternContextState {
