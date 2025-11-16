@@ -843,6 +843,11 @@ const Dashboard = () => {
                         </thead>
                         <tbody className="divide-y divide-white/5">
                           {tableData.map(team => <tr key={team.position} className={`${team.indicator === 'emerald' ? 'bg-gradient-to-r from-emerald-500/10 via-emerald-500/5 to-transparent' : team.indicator === 'rose' ? 'bg-gradient-to-r from-rose-500/5 via-rose-500/0 to-transparent' : ''}`}>
+                              <td className="px-4 sm:px-6 py-3 align-middle text-center">
+                                <span className="text-[11px] font-semibold text-slate-50">
+                                  {team.position}
+                                </span>
+                              </td>
                               <td className="px-4 sm:px-6 py-3 align-middle">
                                 <Link to={`/teams/${team.team.toLowerCase().replace(/\s+/g, '-')}`} className="flex items-center gap-3 hover:opacity-80 transition-opacity">
                                   <div className="h-7 w-7 rounded-xl bg-cover bg-center border border-white/20 shadow-[0_0_10px_rgba(30,41,59,0.5)]" style={{
@@ -864,28 +869,6 @@ const Dashboard = () => {
                                     </div>
                                   </div>
                                 </Link>
-                              </td>
-                              <td className="px-4 sm:px-6 py-3 align-middle">
-                                <div className="flex items-center gap-3">
-                                  <div className="h-7 w-7 rounded-xl bg-cover bg-center border border-white/20 shadow-[0_0_10px_rgba(30,41,59,0.5)]" style={{
-                                backgroundImage: `url(${team.logo})`
-                              }}></div>
-                                  <div>
-                                    <div className="flex items-center gap-2">
-                                      <p className="text-[11px] font-medium text-slate-50">
-                                        {team.team}
-                                      </p>
-                                      {team.alertActive && <span className="inline-flex h-4 w-4 items-center justify-center rounded-full bg-amber-500/20 border border-amber-500/30">
-                                          <Bell className="w-2.5 h-2.5 text-amber-400" strokeWidth={1.75} />
-                                        </span>}
-                                    </div>
-                                    <div className="flex items-center gap-1 text-[10px]">
-                                      {team.form.map((result, idx) => <span key={idx} className={`inline-flex h-3.5 w-3.5 items-center justify-center rounded text-[8px] font-semibold ${result === 'W' ? 'bg-emerald-500 text-white' : result === 'D' ? 'bg-amber-500 text-white' : 'bg-rose-500 text-white'}`}>
-                                          {result}
-                                        </span>)}
-                                    </div>
-                                  </div>
-                                </div>
                               </td>
                               <td className="px-2 py-3 text-center align-middle">
                                 {team.played}

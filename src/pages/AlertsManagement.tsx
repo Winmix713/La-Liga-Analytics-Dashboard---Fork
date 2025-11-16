@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, BellRing, Plus, Play, Trash2, Edit, Pause } from 'lucide-react';
 import { useAlerts } from '../hooks/useAlerts';
+import { Loading } from '../components/Loading';
 export function AlertsManagement() {
   const navigate = useNavigate();
   const {
@@ -34,9 +35,7 @@ export function AlertsManagement() {
     }
   };
   if (loading && alerts.length === 0) {
-    return <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-950 via-black to-slate-900">
-        <div className="text-slate-400">Loading alerts...</div>
-      </div>;
+    return <Loading fullScreen message="Értesítések betöltése..." />;
   }
   const getStatusBadge = (status: string) => {
     switch (status) {

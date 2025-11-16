@@ -20,10 +20,25 @@ export function ImportMatchesModal({
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
     if (!selectedFile) return;
+    
+    const validExtensions = ['.csv', '.json'];
+    const fileExtension = selectedFile.name.substring(selectedFile.name.lastIndexOf('.')).toLowerCase();
+    
+    if (!validExtensions.includes(fileExtension)) {
+      setError('Érvénytelen fájlformátum. Csak CSV és JSON fájlok támogatottak.');
+      return;
+    }
+    
+    const maxSize = 10 * 1024 * 1024;
+    if (selectedFile.size > maxSize) {
+      setError('A fájl mérete túl nagy. Maximum 10MB engedélyezett.');
+      return;
+    }
+    
     setFile(selectedFile);
     setError(null);
     setSuccess(false);
-    // Mock file parsing - in real app, parse CSV/JSON
+    
     const mockData = [{
       homeTeam: 'Barcelona',
       awayTeam: 'Real Madrid',

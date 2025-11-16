@@ -66,14 +66,16 @@ export function AlertProvider({
     try {
       const repo = getRepository();
       const newAlert = await repo.alerts.createAlert(data);
-      const updatedAlerts = [...state.alerts, newAlert];
-      const activeAlerts = updateActiveAlerts(updatedAlerts);
-      setState(prev => ({
-        ...prev,
-        alerts: updatedAlerts,
-        activeAlerts,
-        loading: false
-      }));
+      setState(prev => {
+        const updatedAlerts = [...prev.alerts, newAlert];
+        const activeAlerts = updateActiveAlerts(updatedAlerts);
+        return {
+          ...prev,
+          alerts: updatedAlerts,
+          activeAlerts,
+          loading: false
+        };
+      });
       return newAlert;
     } catch (error) {
       setState(prev => ({
@@ -83,7 +85,7 @@ export function AlertProvider({
       }));
       throw error;
     }
-  }, [state.alerts, updateActiveAlerts]);
+  }, [updateActiveAlerts]);
   const updateAlert = useCallback(async (alertId: string, data: Partial<Alert>): Promise<Alert> => {
     setState(prev => ({
       ...prev,
@@ -93,14 +95,16 @@ export function AlertProvider({
     try {
       const repo = getRepository();
       const updatedAlert = await repo.alerts.updateAlert(alertId, data);
-      const updatedAlerts = state.alerts.map(a => a.id === alertId ? updatedAlert : a);
-      const activeAlerts = updateActiveAlerts(updatedAlerts);
-      setState(prev => ({
-        ...prev,
-        alerts: updatedAlerts,
-        activeAlerts,
-        loading: false
-      }));
+      setState(prev => {
+        const updatedAlerts = prev.alerts.map(a => a.id === alertId ? updatedAlert : a);
+        const activeAlerts = updateActiveAlerts(updatedAlerts);
+        return {
+          ...prev,
+          alerts: updatedAlerts,
+          activeAlerts,
+          loading: false
+        };
+      });
       return updatedAlert;
     } catch (error) {
       setState(prev => ({
@@ -110,7 +114,7 @@ export function AlertProvider({
       }));
       throw error;
     }
-  }, [state.alerts, updateActiveAlerts]);
+  }, [updateActiveAlerts]);
   const deleteAlert = useCallback(async (alertId: string): Promise<void> => {
     setState(prev => ({
       ...prev,
@@ -120,14 +124,16 @@ export function AlertProvider({
     try {
       const repo = getRepository();
       await repo.alerts.deleteAlert(alertId);
-      const updatedAlerts = state.alerts.filter(a => a.id !== alertId);
-      const activeAlerts = updateActiveAlerts(updatedAlerts);
-      setState(prev => ({
-        ...prev,
-        alerts: updatedAlerts,
-        activeAlerts,
-        loading: false
-      }));
+      setState(prev => {
+        const updatedAlerts = prev.alerts.filter(a => a.id !== alertId);
+        const activeAlerts = updateActiveAlerts(updatedAlerts);
+        return {
+          ...prev,
+          alerts: updatedAlerts,
+          activeAlerts,
+          loading: false
+        };
+      });
     } catch (error) {
       setState(prev => ({
         ...prev,
@@ -136,15 +142,16 @@ export function AlertProvider({
       }));
       throw error;
     }
-  }, [state.alerts, updateActiveAlerts]);
+  }, [updateActiveAlerts]);
   const toggleAlert = useCallback(async (alertId: string): Promise<void> => {
-    const alert = state.alerts.find(a => a.id === alertId);
-    if (!alert) return;
-    const newStatus = alert.status === 'active' ? 'paused' : 'active';
-    await updateAlert(alertId, {
-      status: newStatus
+    setState(prev => {
+      const alert = prev.alerts.find(a => a.id === alertId);
+      if (!alert) return prev;
+      const newStatus = alert.status === 'active' ? 'paused' : 'active';
+      updateAlert(alertId, { status: newStatus });
+      return prev;
     });
-  }, [state.alerts, updateAlert]);
+  }, [updateAlert]);
   const clearError = useCallback(() => {
     setState(prev => ({
       ...prev,

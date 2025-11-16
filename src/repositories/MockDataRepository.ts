@@ -28,9 +28,58 @@ const mockTeams: Team[] = [{
   indicator: 'emerald',
   patterns: ['home_comeback', 'high_scoring'],
   alertActive: false
-}
-// ... existing code ...
-];
+}, {
+  id: 'villarreal',
+  position: 2,
+  name: 'Villarreal',
+  logo: 'https://images.unsplash.com/photo-1518091043644-c1f4c3aaf2c8?auto=format&fit=crop&w=200&q=80',
+  played: 30,
+  won: 18,
+  drawn: 5,
+  lost: 7,
+  goalsFor: 48,
+  goalsAgainst: 32,
+  goalDifference: 16,
+  points: 59,
+  form: ['W', 'W', 'W', 'W', 'W'],
+  indicator: 'emerald',
+  patterns: ['high_scoring'],
+  alertActive: true
+}, {
+  id: 'madrid-feher',
+  position: 3,
+  name: 'Madrid Fehér',
+  logo: 'https://images.unsplash.com/photo-1522778119026-d647f0596c20?auto=format&fit=crop&w=200&q=80',
+  played: 30,
+  won: 17,
+  drawn: 4,
+  lost: 9,
+  goalsFor: 60,
+  goalsAgainst: 40,
+  goalDifference: 20,
+  points: 55,
+  form: ['L', 'W', 'W', 'W', 'W'],
+  indicator: 'emerald',
+  patterns: ['home_comeback'],
+  alertActive: false
+}, {
+  id: 'san-sebastian',
+  position: 4,
+  name: 'San Sebastian',
+  logo: 'https://images.unsplash.com/photo-1551958219-acbc608c6377?auto=format&fit=crop&w=200&q=80',
+  played: 30,
+  won: 16,
+  drawn: 4,
+  lost: 10,
+  goalsFor: 58,
+  goalsAgainst: 40,
+  goalDifference: 18,
+  points: 52,
+  form: ['W', 'W', 'D', 'W', 'L'],
+  indicator: 'emerald',
+  patterns: [],
+  alertActive: true
+}];
 const mockMatches: Match[] = [{
   id: 'match-1',
   date: '2024. 01. 01.',
@@ -40,12 +89,34 @@ const mockMatches: Match[] = [{
   awayTeamId: 'bilbao',
   score: '0 - 2',
   result: 'L',
-  round: '-',
+  round: '15',
   patterns: ['high_scoring'],
   alertTriggered: false
-}
-// ... existing code ...
-];
+}, {
+  id: 'match-2',
+  date: '2024. 01. 02.',
+  homeTeam: 'Villarreal',
+  awayTeam: 'Madrid Fehér',
+  homeTeamId: 'villarreal',
+  awayTeamId: 'madrid-feher',
+  score: '3 - 1',
+  result: 'W',
+  round: '15',
+  patterns: ['high_scoring'],
+  alertTriggered: true
+}, {
+  id: 'match-3',
+  date: '2024. 01. 03.',
+  homeTeam: 'Bilbao',
+  awayTeam: 'Villarreal',
+  homeTeamId: 'bilbao',
+  awayTeamId: 'villarreal',
+  score: '2 - 2',
+  result: 'D',
+  round: '16',
+  patterns: ['high_scoring', 'home_comeback'],
+  alertTriggered: false
+}];
 const mockPatterns: Pattern[] = [{
   id: 'pattern-1',
   name: 'Home Team Comeback',

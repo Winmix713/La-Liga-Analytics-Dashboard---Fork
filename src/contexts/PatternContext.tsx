@@ -128,22 +128,24 @@ export function PatternProvider({
     }
   }, []);
   const selectPattern = useCallback((patternId: string | null) => {
-    if (patternId === null) {
-      setState(prev => ({
-        ...prev,
-        selectedPattern: null,
-        analysisResult: null
-      }));
-      return;
-    }
-    const pattern = state.patterns.find(p => p.id === patternId);
-    if (pattern) {
-      setState(prev => ({
-        ...prev,
-        selectedPattern: pattern
-      }));
-    }
-  }, [state.patterns]);
+    setState(prev => {
+      if (patternId === null) {
+        return {
+          ...prev,
+          selectedPattern: null,
+          analysisResult: null
+        };
+      }
+      const pattern = prev.patterns.find(p => p.id === patternId);
+      if (pattern) {
+        return {
+          ...prev,
+          selectedPattern: pattern
+        };
+      }
+      return prev;
+    });
+  }, []);
   const analyzePattern = useCallback(async (patternId: string, leagueId: string): Promise<PatternAnalysisResult> => {
     setState(prev => ({
       ...prev,

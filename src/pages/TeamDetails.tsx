@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Trophy, TrendingUp, Activity, Calendar, MapPin } from 'lucide-react';
+import { ArrowLeft, Trophy, TrendingUp, Activity, Calendar } from 'lucide-react';
 import { getRepository } from '../repositories/factory';
+import { Loading } from '../components/Loading';
 import type { Team, Match } from '../types';
 export function TeamDetails() {
   const {
@@ -33,14 +34,23 @@ export function TeamDetails() {
     loadTeamData();
   }, [teamId]);
   if (loading) {
-    return <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-950 via-black to-slate-900">
-        <div className="text-slate-400">Loading...</div>
-      </div>;
+    return <Loading fullScreen message="Csapat adatok betöltése..." />;
   }
   if (!team) {
-    return <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-950 via-black to-slate-900">
-        <div className="text-slate-400">Team not found</div>
-      </div>;
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-950 via-black to-slate-900">
+        <div className="text-center">
+          <p className="text-lg text-slate-400 mb-4">Csapat nem található</p>
+          <button
+            onClick={() => navigate('/')}
+            className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-blue-500 px-4 py-2 text-sm font-medium text-white shadow-[0_0_15px_rgba(79,70,229,0.5)] hover:shadow-[0_0_20px_rgba(79,70,229,0.7)] transition-shadow"
+          >
+            <ArrowLeft className="w-4 h-4" strokeWidth={1.75} />
+            Vissza a főoldalra
+          </button>
+        </div>
+      </div>
+    );
   }
   const getFormBadgeColor = (result: string) => {
     switch (result) {
