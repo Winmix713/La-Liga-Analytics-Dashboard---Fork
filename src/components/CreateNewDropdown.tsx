@@ -13,7 +13,10 @@ export function CreateNewDropdown({
 }: CreateNewDropdownProps) {
   return <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
-        <button className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-slate-50 to-slate-200 text-slate-900 text-xs font-medium tracking-tight px-3.5 py-1.5 shadow-[0_0_15px_rgba(148,163,184,0.4)] hover:shadow-[0_0_20px_rgba(148,163,184,0.6)] transition-shadow">
+        <button 
+          className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-slate-50 to-slate-200 text-slate-900 text-xs font-medium tracking-tight px-3.5 py-1.5 shadow-[0_0_15px_rgba(148,163,184,0.4)] hover:shadow-[0_0_20px_rgba(148,163,184,0.6)] transition-shadow"
+          aria-label="Új elem létrehozása"
+        >
           <Plus className="w-3.5 h-3.5" strokeWidth={1.75} />
           <span>Új létrehozása</span>
         </button>

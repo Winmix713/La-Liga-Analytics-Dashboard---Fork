@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Trophy, Calendar, Clock, MapPin, X } from 'lucide-react';
+import { ArrowLeft, Trophy, Calendar, Clock, MapPin } from 'lucide-react';
 import { getRepository } from '../repositories/factory';
+import { Loading } from '../components/Loading';
 import type { Match } from '../types';
 export function MatchDetails() {
   const {
@@ -28,14 +29,23 @@ export function MatchDetails() {
     loadMatch();
   }, [matchId]);
   if (loading) {
-    return <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-950 via-black to-slate-900">
-        <div className="text-slate-400">Loading...</div>
-      </div>;
+    return <Loading fullScreen message="Meccs adatok betöltése..." />;
   }
   if (!match) {
-    return <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-950 via-black to-slate-900">
-        <div className="text-slate-400">Match not found</div>
-      </div>;
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-950 via-black to-slate-900">
+        <div className="text-center">
+          <p className="text-lg text-slate-400 mb-4">Mérkőzés nem található</p>
+          <button
+            onClick={() => navigate(-1)}
+            className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-blue-500 px-4 py-2 text-sm font-medium text-white shadow-[0_0_15px_rgba(79,70,229,0.5)] hover:shadow-[0_0_20px_rgba(79,70,229,0.7)] transition-shadow"
+          >
+            <ArrowLeft className="w-4 h-4" strokeWidth={1.75} />
+            Vissza
+          </button>
+        </div>
+      </div>
+    );
   }
   return <div className="min-h-screen bg-gradient-to-br from-slate-950 via-black to-slate-900">
       <div className="px-4 sm:px-6 lg:px-8 py-6 space-y-6">

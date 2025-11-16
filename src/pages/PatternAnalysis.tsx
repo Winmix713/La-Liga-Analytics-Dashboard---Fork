@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Sparkles, BarChart3, Activity, Plus, Trash2, Edit } from 'lucide-react';
 import { usePatterns } from '../hooks/usePatterns';
+import { Loading } from '../components/Loading';
 export function PatternAnalysis() {
   const navigate = useNavigate();
   const {
@@ -34,9 +35,7 @@ export function PatternAnalysis() {
     }
   };
   if (loading && patterns.length === 0) {
-    return <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-950 via-black to-slate-900">
-        <div className="text-slate-400">Loading patterns...</div>
-      </div>;
+    return <Loading fullScreen message="Minták betöltése..." />;
   }
   return <div className="min-h-screen bg-gradient-to-br from-slate-950 via-black to-slate-900">
       <div className="px-4 sm:px-6 lg:px-8 py-6 space-y-6">

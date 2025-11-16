@@ -31,33 +31,46 @@ export function SearchModal({
     setLoading(true);
     try {
       const repo = getRepository();
-      const teams = await repo.teams.getTeams('la-liga-2023-24');
-      const matches = await repo.matches.getMatches('la-liga-2023-24');
+      const [teams, matches] = await Promise.all([
+        repo.teams.getTeams('la-liga-2023-24'),
+        repo.matches.getMatches('la-liga-2023-24')
+      ]);
       const searchResults: SearchResult[] = [];
-      // Search teams
-      teams.filter(team => team.name.toLowerCase().includes(searchQuery.toLowerCase())).forEach(team => {
-        searchResults.push({
-          id: team.id,
-          type: 'team',
-          title: team.name,
-          subtitle: `Position: ${team.position} • ${team.points} points`,
-          url: `/teams/${team.id}`
+      const lowerQuery = searchQuery.toLowerCase();
+      
+      teams
+        .filter(team => team.name.toLowerCase().includes(lowerQuery))
+        .forEach(team => {
+          searchResults.push({
+            id: team.id,
+            type: 'team',
+            title: team.name,
+            subtitle: `Position: ${team.position} • ${team.points} points`,
+            url: `/teams/${team.id}`
+          });
         });
-      });
-      // Search matches
-      matches.filter(match => match.homeTeam.toLowerCase().includes(searchQuery.toLowerCase()) || match.awayTeam.toLowerCase().includes(searchQuery.toLowerCase())).slice(0, 5).forEach(match => {
-        searchResults.push({
-          id: match.id,
-          type: 'match',
-          title: `${match.homeTeam} vs ${match.awayTeam}`,
-          subtitle: `${match.date} • ${match.score}`,
-          url: `/matches/${match.id}`
+      
+      matches
+        .filter(match => 
+          match.homeTeam.toLowerCase().includes(lowerQuery) || 
+          match.awayTeam.toLowerCase().includes(lowerQuery)
+        )
+        .slice(0, 5)
+        .forEach(match => {
+          searchResults.push({
+            id: match.id,
+            type: 'match',
+            title: `${match.homeTeam} vs ${match.awayTeam}`,
+            subtitle: `${match.date} • ${match.score}`,
+            url: `/matches/${match.id}`
+          });
         });
-      });
+      
       setResults(searchResults);
       setSelectedIndex(0);
     } catch (error) {
       console.error('Search failed:', error);
+      setResults([]);
     } finally {
       setLoading(false);
     }
